@@ -24,12 +24,18 @@ function sendToServer(data) {
         },
         body: JSON.stringify({ data: data })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(result => {
         displayResults(result);
     })
     .catch(error => {
         console.error('Error:', error);
+        alert('There was an error processing your request. Please try again.');
     });
 }
 
@@ -53,7 +59,4 @@ function getSentimentEmoji(sentiment) {
     switch(sentiment) {
         case 'positive': return '😊';
         case 'negative': return '😞';
-        case 'neutral': return '😐';
-        default: return '';
-    }
-}
+        case 'neutral': return 
